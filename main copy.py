@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
+import time
+import random
 
 print("Вариант №16 ИУ4-23Б Матвеев И.С.\n")
 print("Визуализация графа, заданного списком рёбер")
@@ -38,46 +40,46 @@ def edges(list_before): #  преобразует лист бефо в лист 
             list1.append(int(list_before[i][0]))
             list2.append(int(list_before[i][1]))
     print(len(list_before))
-    list_after=list(set(zip(list1,list2)))
+    list_after=list(zip(list1,list2))
     return list_after
 
-def try_find_vertex(list_after, vеrtex1, vertex2):
-    flag=0
-    while flag==0:
-        for i in range(0,len(list_after)):
-            if vеrtex1 in list_after[i]:
-                if vertex2 in list_after[i]:
-                    flag=1
-        if flag==0:
-            print("Введённого ребра НЕ СУЩЕСТВУЕТ\n")
-            print("Список рёбер:")
-            for i in range(0,len(list_after)-1, 2):
-                print(list_after[i], list_after[i+1])
-                if i == len(list_after)-3 :
-                    print(list_after[len(list_after)-1])
-            print()
-            vеrtex1, vertex2 = map(int, input("Задайте ребро: ").split())    
-    vertex12=[vеrtex1, vertex2]
-    print()
-    return vertex12
+# def try_find_vertex(list_after, vеrtex1, vertex2):
+#     flag=0
+#     while flag==0:
+#         for i in range(0,len(list_after)):
+#             if vеrtex1 in list_after[i]:
+#                 if vertex2 in list_after[i]:
+#                     flag=1
+#         if flag==0:
+#             print("Введённого ребра НЕ СУЩЕСТВУЕТ\n")
+#             print("Список рёбер:")
+#             for i in range(0,len(list_after)-1, 2):
+#                 print(list_after[i], list_after[i+1])
+#                 if i == len(list_after)-3 :
+#                     print(list_after[len(list_after)-1])
+#             print()
+#             vеrtex1, vertex2 = map(int, input("Задайте ребро: ").split())    
+#     vertex12=[vеrtex1, vertex2]
+#     print()
+#     return vertex12
 
-def del_vertex(list_after, vertex12):
-    i=0
-    flag=0
-    vеrtex1=vertex12[0]
-    vertex2=vertex12[1]
-    while i<len(list_after):
-        for k in 0,1:
-            if (list_after[i][k]==vеrtex1) or (list_after[i][k]==vertex2):
-                del list_after[i]
-                flag=1
-                break
-        if flag==0:
-            i+=1
-        else:
-            flag=0
+# def del_vertex(list_after, vertex12):
+#     i=0
+#     flag=0
+#     vеrtex1=vertex12[0]
+#     vertex2=vertex12[1]
+#     while i<len(list_after):
+#         for k in 0,1:
+#             if (list_after[i][k]==vеrtex1) or (list_after[i][k]==vertex2):
+#                 del list_after[i]
+#                 flag=1
+#                 break
+#         if flag==0:
+#             i+=1
+#         else:
+#             flag=0
 
-    return list_after
+#     return list_after
 
 def vertex(list_after): # формирует список вершин (кроме одиночных)
     listvertex =[]
@@ -86,17 +88,11 @@ def vertex(list_after): # формирует список вершин (кром
         listvertex.append(list_after[i][1])
     return listvertex
 
-def alonevertex(list_before, vertex1, vertex2): # формирует список одиночных вершин
+def alonevertex(list_before): # формирует список одиночных вершин
     alonev = []
     for i in range(0,len(list_before)):
         if(len(list_before[i]) == 1 ):
             alonev.append(int(list_before[i][0]))
-    i=0
-    while i<len(alonev):
-        if (alonev[i]==vertex1) or (alonev[i]==vertex2):
-            del alonev[i]
-        else:
-            i+=1
     return alonev
 
 def allvert(listvertex,alonev): # формирует список всех вершин 
@@ -167,25 +163,25 @@ def max_heapify(alist, index, size):
 
 def main():
 
-    string = read_txt("two_var_txt/list_of_edges7.txt")
+    string = read_txt("two_var_txt/run1.txt")
 
     list_before = split(string)
     list_after = edges(list_before)
     edgess = list_after
 
-    print('\nСписок рёбер: ')
-    for i in range(0,len(list_after)-1, 2):
-        print(list_after[i], list_after[i+1])
-        if i == len(list_after)-3 :
-            print(list_after[len(list_after)-1])
+    # print('\nСписок рёбер: ')
+    # for i in range(0,len(list_after)-1, 2):
+    #     print(list_after[i], list_after[i+1])
+    #     if i == len(list_after)-3 :
+    #         print(list_after[len(list_after)-1])
 
-    vеrtex1, vertex2 = map(int, input("\nЗадайте ребро: ").split())
+    # vеrtex1, vertex2 = map(int, input("\nЗадайте ребро: ").split())
 
-    vertex12 = try_find_vertex(list_after, vеrtex1, vertex2)
-    list_after = del_vertex(list_after, vertex12)
+    # vertex12 = try_find_vertex(list_after, vеrtex1, vertex2)
+    # list_after = del_vertex(list_after, vertex12)
 
     listvertex =  vertex(list_after)
-    alonev = alonevertex(list_before, vеrtex1, vertex2)
+    alonev = alonevertex(list_before)
 
     allvertex = allvert(listvertex,alonev)
 
@@ -200,15 +196,18 @@ def main():
 
     exgraf.output()
 
-    
+    list_of_degree=[]
+    for i in range(0,2*10**6):
+        list_of_degree.append(random.randint(0, 10))
 
+    start_time = time.perf_counter()
     heapsort(list_of_degree)
+    end_time = time.perf_counter()
 
 
+    # print('\nОтсортированный списк степеней вершин:', list_of_degree)
 
-    print('\nОтсортированный списк степеней вершин:', list_of_degree)
-
-
+    print("Время сортировки:", (end_time - start_time)*1000, "мс")
     
     nx.draw(G, with_labels=1)
     plt.show()
