@@ -1,4 +1,4 @@
-import random
+import random # generate file
 file = open('two_var_txt/run1.txt','w')
 for i in range (0,10):
     a = random.randint(0, 10)

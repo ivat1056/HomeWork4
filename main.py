@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # main programm
 import networkx as nx
 
 print("Вариант №16 ИУ4-23Б Матвеев И.С.\n")
@@ -167,7 +167,7 @@ def max_heapify(alist, index, size):
 
 def main():
 
-    string = read_txt("two_var_txt/list_of_edges7.txt")
+    string = read_txt("two_var_txt/list_of_edges180.txt")
 
     list_before = split(string)
     list_after = edges(list_before)
